@@ -1,4 +1,4 @@
-import * as gamepadConfig from "@sensslen/node-gamepad/controllers/logitech/gamepadf710.json";
+import * as gamepadConfig from "@sensslen/node-gamepad/controllers/logitech/dualshock4.json";
 
 import {
   CameraConnectionFactory,
@@ -11,9 +11,9 @@ import {
   ILogger as NodeGamepadLogger,
 } from "@sensslen/node-gamepad";
 
-import { EButtonDirection } from "../../Shared/IGamepadConfiguration";
 import { IDualshock4Config } from "./Dualshock4Config";
 import { Ps4Gamepad } from "../Ps4Gamepad";
+import { EButtonDirection } from "../../Shared/IGamepadConfiguration";
 
 export class Dualshock4 extends Ps4Gamepad {
   private readonly pad: NodeGamepad;

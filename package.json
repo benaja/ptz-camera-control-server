@@ -7,7 +7,7 @@
     "node": "18.x"
   },
   "scripts": {
-    "dev": "nodemon --watch './**/*.ts' --watch './**/*.json' --exec 'ts-node' src/index.ts",
+    "dev": "tsc-watch --onsuccess \"node dist/index.js -c config.example.json\"",
     "build": "npx tsc",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -19,17 +19,24 @@
   "license": "MIT",
   "devDependencies": {
     "@types/node": "^20.6.0",
+    "@types/node-hid": "^1.3.1",
     "@types/yargs": "^17.0.24",
     "nodemon": "^3.0.1",
     "ts-node": "^10.9.1",
+    "tsc-watch": "^6.0.4",
     "typescript": "^5.2.2"
   },
   "dependencies": {
+    "@microsoft/signalr": "^7.0.11",
     "@sensslen/node-gamepad": "file:../node-gamepad/dist",
     "ajv": "^8.12.0",
+    "atem-connection": "^3.3.0",
+    "axios": "^1.5.0",
     "cgf.cameracontrol.main.core": "file:../main-core/dist",
     "everpolate": "^0.0.3",
+    "node-hid": "^2.1.2",
     "strict-event-emitter-types": "^2.0.0",
+    "ts-node-dev": "^2.0.0",
     "winston": "^3.10.0",
     "yargs": "^17.7.2",
     "zod": "^3.22.2"
