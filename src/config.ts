@@ -1,11 +1,40 @@
 import { z } from "zod";
 import fs from "fs";
 import logger from "./logger";
+import { VideoMixerType } from "./VideoMixer";
 
 const schema = z.object({
-  cameras: z.array(
+  cams: z.array(
     z.object({
-      url: z.string(),
+      type: z.string(),
+      instance: z.number(),
+      connectionUrl: z.string(),
+      connectionPort: z.string(),
+    })
+  ),
+  videoMixers: z.array(
+    z.object({
+      type: z.nativeEnum(VideoMixerType),
+      instance: z.number(),
+    })
+  ),
+  interfaces: z.array(
+    z.object({
+      type: z.string(),
+      instance: z.number(),
+      cameraMap: z.record(z.number()),
+      connectionChange: z.object({
+        default: z.object({
+          up: z.number(),
+          down: z.number(),
+          left: z.number(),
+          right: z.number(),
+        }),
+      }),
+      specialFunction: z.object({
+        default: z.object({}),
+      }),
+      videoMixer: z.number(),
     })
   ),
 });

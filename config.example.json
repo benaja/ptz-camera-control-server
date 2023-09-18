@@ -1,7 +1,50 @@
 {
-  "cameras": [
+  "cams": [
     {
-      "url": "http://192.168.0.0"
+      "type": "Cgf.PtzCamera",
+      "instance": 1,
+      "connectionUrl": "http://192.168.1.75:5001",
+      "connectionPort": "/dev/ttyACM0"
+    }
+  ],
+  "videoMixers": [
+    {
+      "type": "passthrough/default",
+      "instance": 1,
+      "ip": "192.168.1.112",
+      "mixEffectBlock": 0
+    }
+  ],
+  "interfaces": [
+    {
+      "type": "ps4/dualshock4",
+      "instance": 1,
+      "videoMixer": 1,
+      "connectionChange": {
+        "default": {
+          "up": 1,
+          "right": 2,
+          "down": 3,
+          "left": 4
+        }
+      },
+      "specialFunction": {
+        "default": {
+          "A": {
+            "type": "key",
+            "Index": 0
+          },
+          "B": {
+            "type": "macro",
+            "Index": 0
+          }
+        }
+      },
+      "cameraMap": {
+        "1": 1,
+        "2": 2,
+        "3": 3
+      }
     }
   ]
 }

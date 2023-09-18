@@ -1,4 +1,5 @@
 import winston from "winston";
+import { ILogger } from "cgf.cameracontrol.main.core";
 
 const logger = winston.createLogger({
   level: "info",
@@ -11,3 +12,15 @@ const logger = winston.createLogger({
 });
 
 export default logger;
+
+class Logger implements ILogger {
+  log(toLog: string): void {
+    console.log(toLog);
+  }
+  error(toLog: string): void {
+    console.error(toLog);
+  }
+}
+const legacyLogger = new Logger();
+
+export { legacyLogger };
