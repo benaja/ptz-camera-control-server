@@ -20,6 +20,9 @@ class Logger implements ILogger {
   error(toLog: string): void {
     console.error(toLog);
   }
+  debug(toLog: string): void {
+    console.log(toLog);
+  }
 }
 const legacyLogger = new Logger();
 

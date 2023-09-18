@@ -32,6 +32,7 @@ export class Dualshock4 extends Ps4Gamepad {
 
     const gamepadLogger: NodeGamepadLogger = {
       info: (tolog: string) => this.log(tolog),
+      debug: (tolog: string) => this.log(tolog),
     };
 
     this.pad = new NodeGamepad(padConfig, gamepadLogger);
