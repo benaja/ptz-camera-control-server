@@ -1,10 +1,7 @@
 #!/usr/bin/env node
 
 import yargs from "yargs";
-import path from "path";
-import winston from "winston";
-import fs from "fs";
-import configSchema from "./configSchema";
+import { loadConfig } from "./config";
 
 async function run() {
   const args = await yargs(process.argv.slice(2)).options({
@@ -16,32 +13,9 @@ async function run() {
     },
   }).argv;
 
-  const logger = winston.createLogger({
-    level: "info",
-    format: winston.format.json(),
-    transports: [
-      new winston.transports.Console({
-        format: winston.format.simple(),
-      }),
-    ],
-  });
+  const config = await loadConfig(args.config);
 
-  let jsonConfig: undefined;
-
-  try {
-    jsonConfig = JSON.parse(fs.readFileSync(args.config).toString());
-  } catch (error) {
-    const typedError = error as Error;
-    logger.error(typedError.message);
-    return;
-  }
-
-  const config = configSchema.safeParse(jsonConfig);
-
-  if (!config.success) {
-    logger.error(config.error.message);
-    return;
-  }
+  console.log(config);
 }
 
 run();
