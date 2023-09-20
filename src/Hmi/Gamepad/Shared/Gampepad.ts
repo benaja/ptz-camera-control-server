@@ -116,26 +116,25 @@ export abstract class Gamepad implements IHmi {
   }
 
   protected changeConnection(direction: EButtonDirection): void {
-    return;
-    // let nextInput = this.connectionChange.default[direction];
-    // switch (this.altKeyState) {
-    //   case EAltKey.alt:
-    //     if (this.connectionChange.alt) {
-    //       nextInput = this.connectionChange.alt[direction];
-    //     }
-    //     break;
-    //   case EAltKey.altLower:
-    //     if (this.connectionChange.altLower) {
-    //       nextInput = this.connectionChange.altLower[direction];
-    //     }
-    //     break;
-    //   default:
-    //     break;
-    // }
+    let nextInput = this.connectionChange.default[direction];
+    switch (this.altKeyState) {
+      case EAltKey.alt:
+        if (this.connectionChange.alt) {
+          nextInput = this.connectionChange.alt[direction];
+        }
+        break;
+      case EAltKey.altLower:
+        if (this.connectionChange.altLower) {
+          nextInput = this.connectionChange.altLower[direction];
+        }
+        break;
+      default:
+        break;
+    }
 
-    // if (nextInput) {
-    //   this.mixer?.changeInput(nextInput);
-    // }
+    if (nextInput) {
+      this.mixer?.changeInput(nextInput);
+    }
   }
 
   protected specialFunction(key: EButtonDirection): void {
@@ -143,34 +142,35 @@ export abstract class Gamepad implements IHmi {
       return;
     }
 
-    return;
+    let specialFunction = this.specialFunctionDefault[key];
+    switch (this.altKeyState) {
+      case EAltKey.alt: {
+        const altVariant = this.specialFunctionAlt[key];
+        if (altVariant) {
+          specialFunction = altVariant;
+        }
+        break;
+      }
+      case EAltKey.altLower: {
+        const altLowerVariant = this.specialFunctionAltLower[key];
+        if (altLowerVariant) {
+          specialFunction = altLowerVariant;
+        }
+        break;
+      }
+      default:
+        break;
+    }
 
-    // let specialFunction = this.specialFunctionDefault[key];
-    // switch (this.altKeyState) {
-    //   case EAltKey.alt: {
-    //     const altVariant = this.specialFunctionAlt[key];
-    //     if (altVariant) {
-    //       specialFunction = altVariant;
-    //     }
-    //     break;
-    //   }
-    //   case EAltKey.altLower: {
-    //     const altLowerVariant = this.specialFunctionAltLower[key];
-    //     if (altLowerVariant) {
-    //       specialFunction = altLowerVariant;
-    //     }
-    //     break;
-    //   }
-    //   default:
-    //     break;
-    // }
-
-    // if (specialFunction) {
-    //   specialFunction.run(this.mixer);
-    // }
+    if (specialFunction) {
+      specialFunction.run(this.mixer);
+    }
   }
 
   protected pan(value: number): void {
+    if (!this.selectedCamera) {
+      this.selectedCamera = this.cameras["1"];
+    }
     this.selectedCamera?.pan(value);
   }
 
