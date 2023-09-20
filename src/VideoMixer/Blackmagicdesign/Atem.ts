@@ -1,9 +1,5 @@
 import { AtemFactory, IAtemConnection } from "./AtemFactory";
-import {
-  IConnection,
-  IImageSelectionChange,
-  IVideoMixer,
-} from "cgf.cameracontrol.main.core";
+import { IConnection, IImageSelectionChange, IVideoMixer } from "core";
 
 import { AtemState } from "atem-connection";
 import { EventEmitter } from "events";

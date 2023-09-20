@@ -1,5 +1,5 @@
-import { IVideoMixer } from 'cgf.cameracontrol.main.core';
+import { IVideoMixer } from "core";
 
 export interface ISpecialFunction {
-    run(mixer: IVideoMixer): void;
+  run(mixer: IVideoMixer): void;
 }

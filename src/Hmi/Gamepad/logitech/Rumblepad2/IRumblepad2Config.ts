@@ -1,5 +1,5 @@
-import { IGamepadConfiguration } from '../../Shared/IGamepadConfiguration';
+import { IGamepadConfiguration } from "../../Shared/GamepadConfiguration";
 
 export interface IRumblepad2Config extends IGamepadConfiguration {
-    serialNumber?: string;
+  serialNumber?: string;
 }

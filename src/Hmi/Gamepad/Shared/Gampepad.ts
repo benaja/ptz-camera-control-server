@@ -6,11 +6,11 @@ import {
   ILogger,
   IVideoMixer,
   VideomixerFactory,
-} from "cgf.cameracontrol.main.core";
+} from "core";
 import {
   EButtonDirection,
   IGamepadConfiguration,
-} from "./IGamepadConfiguration";
+} from "./GamepadConfiguration";
 
 import { EventEmitter } from "events";
 import { ISpecialFunction } from "./SpecialFunctions/ISpecialFunction";

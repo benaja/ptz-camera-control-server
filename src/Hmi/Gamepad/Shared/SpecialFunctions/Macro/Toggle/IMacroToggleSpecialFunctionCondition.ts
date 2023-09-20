@@ -1,5 +1,5 @@
-import { IVideoMixer } from 'cgf.cameracontrol.main.core';
+import { IVideoMixer } from "core";
 
 export interface IMacroToggleSpecialFunctionCondition {
-    isActive(mixer: IVideoMixer): Promise<boolean>;
+  isActive(mixer: IVideoMixer): Promise<boolean>;
 }

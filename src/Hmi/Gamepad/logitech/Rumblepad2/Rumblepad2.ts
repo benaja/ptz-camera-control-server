@@ -1,17 +1,13 @@
-import * as gamepadConfig from "@sensslen/node-gamepad/controllers/logitech/rumblepad2.json";
+import * as gamepadConfig from "gamepad/controllers/logitech/rumblepad2.json";
 
-import {
-  CameraConnectionFactory,
-  ILogger,
-  VideomixerFactory,
-} from "cgf.cameracontrol.main.core";
+import { CameraConnectionFactory, ILogger, VideomixerFactory } from "core";
 import {
   IConfig as IGamepadConfig,
   NodeGamepad,
   ILogger as NodeGamepadLogger,
-} from "@sensslen/node-gamepad";
+} from "gamepad";
 
-import { EButtonDirection } from "../../Shared/IGamepadConfiguration";
+import { EButtonDirection } from "../../Shared/GamepadConfiguration";
 import { IRumblepad2Config } from "./IRumblepad2Config";
 import { LogitechGamepad } from "../LogitechGamepad";
 

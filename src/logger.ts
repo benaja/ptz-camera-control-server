@@ -1,5 +1,5 @@
 import winston from "winston";
-import { ILogger } from "cgf.cameracontrol.main.core";
+import { ILogger } from "core";
 
 const logger = winston.createLogger({
   level: "info",

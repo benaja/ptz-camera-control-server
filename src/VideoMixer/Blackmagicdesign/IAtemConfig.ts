@@ -1,6 +1,6 @@
-import { IConfig } from 'cgf.cameracontrol.main.core';
+import { IConfig } from "core";
 
 export interface IAtemConfig extends IConfig {
-    ip: string;
-    mixEffectBlock: number;
+  ip: string;
+  mixEffectBlock: number;
 }

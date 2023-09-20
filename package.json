@@ -7,7 +7,7 @@
     "node": "18.x"
   },
   "scripts": {
-    "dev": "tsc-watch --onsuccess \"node dist/index.js -c config.example.json\"",
+    "dev": "nodemon",
     "build": "npx tsc",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -24,16 +24,16 @@
     "nodemon": "^3.0.1",
     "ts-node": "^10.9.1",
     "tsc-watch": "^6.0.4",
+    "tsconfig-paths": "^4.2.0",
     "typescript": "^5.2.2"
   },
   "dependencies": {
     "@microsoft/signalr": "^7.0.11",
-    "@sensslen/node-gamepad": "file:../node-gamepad/dist",
     "ajv": "^8.12.0",
     "atem-connection": "^3.3.0",
     "axios": "^1.5.0",
-    "cgf.cameracontrol.main.core": "file:../main-core/dist",
     "everpolate": "^0.0.3",
+    "mathjs": "^11.11.0",
     "node-hid": "^2.1.2",
     "strict-event-emitter-types": "^2.0.0",
     "ts-node-dev": "^2.0.0",

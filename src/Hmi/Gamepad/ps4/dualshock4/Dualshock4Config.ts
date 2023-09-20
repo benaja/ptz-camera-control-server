@@ -1,4 +1,4 @@
-import { IGamepadConfiguration } from "../../Shared/IGamepadConfiguration";
+import { IGamepadConfiguration } from "../../Shared/GamepadConfiguration";
 
 export interface IDualshock4Config extends IGamepadConfiguration {
   serialNumber?: string;

@@ -1,14 +1,12 @@
-import { IConfig } from "cgf.cameracontrol.main.core";
+import { IConfig } from "core";
 import { ISpecialFunctionDefinition } from "./SpecialFunctions/ISpecialFunctionDefinition";
 
-enum EButtonDirection {
+export enum EButtonDirection {
   up = "up",
   down = "down",
   left = "left",
   right = "right",
 }
-
-export { EButtonDirection };
 
 export interface IGamepadConfiguration extends IConfig {
   videoMixer: number;
