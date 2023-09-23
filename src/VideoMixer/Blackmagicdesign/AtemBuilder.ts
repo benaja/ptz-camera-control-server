@@ -1,6 +1,6 @@
 import * as ConfigSchema from "./IAtemConfig.json";
 
-import { IBuilder, IConfig, ILogger, IVideoMixer } from "core";
+import { IBuilder, IConfig, ILogger, IVideoMixer } from "@/core";
 import { Atem } from "./Atem";
 import { AtemFactory } from "./AtemFactory";
 import { ConfigValidator } from "../../ConfigValidator";

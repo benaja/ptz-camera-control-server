@@ -7,7 +7,7 @@ import {
   IHmi,
   ILogger,
   VideomixerFactory,
-} from "core";
+} from "@/core";
 import { IDualshock4Config } from "./Dualshock4Config";
 import { Dualshock4 } from "./Dualshock4";
 import { ConfigValidator } from "../../../../ConfigValidator";

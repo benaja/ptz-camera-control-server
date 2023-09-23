@@ -1,6 +1,6 @@
 import { ISpecialFunction } from "../ISpecialFunction";
 import { ISpecialFunctionMacroLoopConfig } from "./ISpecialFunctionMacroLoopConfig";
-import { IVideoMixer } from "core";
+import { IVideoMixer } from "@/core";
 
 export class MacroLoopSpecialFunction implements ISpecialFunction {
   private nextIndex = 0;

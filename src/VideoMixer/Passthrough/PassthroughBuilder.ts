@@ -1,4 +1,4 @@
-import { IBuilder, IConfig, IVideoMixer } from "core";
+import { IBuilder, IConfig, IVideoMixer } from "@/core";
 import { Passthrough } from "./Passthrough";
 
 export class PassthroughBuilder implements IBuilder<IVideoMixer> {

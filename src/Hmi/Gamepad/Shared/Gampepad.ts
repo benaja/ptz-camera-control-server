@@ -6,7 +6,7 @@ import {
   ILogger,
   IVideoMixer,
   VideomixerFactory,
-} from "core";
+} from "@/core";
 import {
   EButtonDirection,
   IGamepadConfiguration,

@@ -1,6 +1,6 @@
 import { ISpecialFunction } from "./ISpecialFunction";
 import { ISpecialFunctionConnectionChangeConfig } from "./ISpecialFunctionConnectionChangeConfig";
-import { IVideoMixer } from "core";
+import { IVideoMixer } from "@/core";
 
 export class ConnectionChangeSpecialFunction implements ISpecialFunction {
   constructor(private config: ISpecialFunctionConnectionChangeConfig) {}

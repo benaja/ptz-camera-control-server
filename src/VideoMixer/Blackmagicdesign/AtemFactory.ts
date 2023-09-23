@@ -1,4 +1,4 @@
-import { IConnection, ILogger, ISubscription } from "core";
+import { IConnection, ILogger, ISubscription } from "@/core";
 import { Atem } from "atem-connection";
 import { EventEmitter } from "events";
 import { StrictEventEmitter } from "strict-event-emitter-types";

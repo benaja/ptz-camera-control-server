@@ -1,6 +1,6 @@
 import * as gamepadConfig from "gamepad/controllers/logitech/rumblepad2.json";
 
-import { CameraConnectionFactory, ILogger, VideomixerFactory } from "core";
+import { CameraConnectionFactory, ILogger, VideomixerFactory } from "@/core";
 import {
   IConfig as IGamepadConfig,
   NodeGamepad,

@@ -1,7 +1,7 @@
 import { IMacroToggleSpecialFunctionCondition } from "./IMacroToggleSpecialFunctionCondition";
 import { ISpecialFunction } from "../../ISpecialFunction";
 import { ISpecialFunctionMacroToggleConfig } from "./ISpecialFunctionMacroToggleConfig";
-import { IVideoMixer } from "core";
+import { IVideoMixer } from "@/core";
 import { MacroToggleSpecialFunctionConditionFactory } from "./MacroToggleSpecialFunctionConditionFactory";
 
 export class MacroToggleSpecialFunction implements ISpecialFunction {

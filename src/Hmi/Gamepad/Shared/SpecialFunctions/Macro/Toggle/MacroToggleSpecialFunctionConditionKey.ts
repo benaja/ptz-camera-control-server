@@ -1,6 +1,6 @@
 import { IMacroToggleSpecialFunctionCondition } from "./IMacroToggleSpecialFunctionCondition";
 import { ISpecialFunctionMacroToggleConfigConditionKey } from "./ISpecialFunctionMacroToggleConfig";
-import { IVideoMixer } from "core";
+import { IVideoMixer } from "@/core";
 
 export class MacroToggleSpecialFunctionConditionKey
   implements IMacroToggleSpecialFunctionCondition

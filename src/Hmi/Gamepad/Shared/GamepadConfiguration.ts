@@ -1,4 +1,4 @@
-import { IConfig } from "core";
+import { IConfig } from "@/core";
 import { ISpecialFunctionDefinition } from "./SpecialFunctions/ISpecialFunctionDefinition";
 
 export enum EButtonDirection {

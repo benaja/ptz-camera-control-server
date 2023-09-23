@@ -1,6 +1,6 @@
 import { ISpecialFunction } from "./ISpecialFunction";
 import { ISpecialFunctionKeyConfig } from "./ISpecialFunctionKeyConfig";
-import { IVideoMixer } from "core";
+import { IVideoMixer } from "@/core";
 
 export class KeySpecialFunction implements ISpecialFunction {
   constructor(private config: ISpecialFunctionKeyConfig) {}

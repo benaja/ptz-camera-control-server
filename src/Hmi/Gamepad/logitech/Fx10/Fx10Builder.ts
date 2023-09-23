@@ -9,7 +9,7 @@ import {
   IHmi,
   ILogger,
   VideomixerFactory,
-} from "core";
+} from "@/core";
 import { ConfigValidator } from "../../../../ConfigValidator";
 import { Fx10 } from "./Fx10";
 import { ILogitechFx10Config } from "./ILogitechFx10Config";

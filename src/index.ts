@@ -2,7 +2,7 @@
 
 import yargs from "yargs";
 import { loadConfig } from "./config";
-import { Core } from "core";
+import { Core } from "@/core";
 import { PassthroughBuilder } from "./VideoMixer/Passthrough/PassthroughBuilder";
 import logger, { legacyLogger } from "./logger";
 import { Dualshock4Builder } from "./Hmi/Gamepad/ps4/dualshock4/Dualshock4Builder";

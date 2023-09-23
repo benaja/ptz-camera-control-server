@@ -7,7 +7,7 @@ import {
   IHmi,
   ILogger,
   VideomixerFactory,
-} from "core";
+} from "@/core";
 import { ConfigValidator } from "../../../../ConfigValidator";
 import { IRumblepad2Config } from "./IRumblepad2Config";
 import { Rumblepad2 } from "./Rumblepad2";

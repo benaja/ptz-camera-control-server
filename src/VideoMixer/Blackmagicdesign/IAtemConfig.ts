@@ -1,4 +1,4 @@
-import { IConfig } from "core";
+import { IConfig } from "@/core";
 
 export interface IAtemConfig extends IConfig {
   ip: string;

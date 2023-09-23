@@ -1,4 +1,4 @@
-import { CameraConnectionFactory, ILogger, VideomixerFactory } from "core";
+import { CameraConnectionFactory, ILogger, VideomixerFactory } from "@/core";
 import {
   IConfig as IGamepadConfig,
   NodeGamepad,
