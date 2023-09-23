@@ -164,32 +164,28 @@ export class CgfPtzCamera implements ICameraConnection {
   }
 
   private async transmitNextStateIfRequestedAndPossible() {
-    if (!this.canTransmit) {
-      return;
-    }
-    if (!this.connected) {
-      return;
-    }
-    if (this.shouldTransmitState) {
-      this.canTransmit = false;
-      this.shouldTransmitState = false;
-      try {
-        const updateSuccessful = await this.socketConnection.invoke(
-          "SetState",
-          this.currentState
-        );
-        console.log("updateSuccessful", this.currentState);
-        if (!updateSuccessful) {
-          this.log("state update failure returned - retrying");
-          this.shouldTransmitState = true;
-        }
-        this.canTransmit = true;
-      } catch (error) {
+    if (!this.canTransmit) return;
+    if (!this.connected) return;
+    if (!this.shouldTransmitState) return;
+
+    this.canTransmit = false;
+    this.shouldTransmitState = false;
+    try {
+      const updateSuccessful = await this.socketConnection.invoke(
+        "SetState",
+        this.currentState
+      );
+      console.log("updateSuccessful", this.currentState);
+      if (!updateSuccessful) {
+        this.log("state update failure returned - retrying");
         this.shouldTransmitState = true;
-        this.log(`state transmission error - ${error}`);
       }
-      await this.transmitNextStateIfRequestedAndPossible();
+      this.canTransmit = true;
+    } catch (error) {
+      this.shouldTransmitState = true;
+      this.log(`state transmission error - ${error}`);
     }
+    await this.transmitNextStateIfRequestedAndPossible();
   }
 
   private scheduleStateTransmission() {

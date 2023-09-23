@@ -6,6 +6,7 @@ import { Core } from "@/core";
 import { PassthroughBuilder } from "./VideoMixer/Passthrough/PassthroughBuilder";
 import logger, { legacyLogger } from "./logger";
 import { Dualshock4Builder } from "./Hmi/Gamepad/ps4/dualshock4/Dualshock4Builder";
+import "./websocket";
 
 async function run() {
   const args = await yargs(process.argv.slice(2)).options({

@@ -1,0 +1,23 @@
+# Docker image that supports hot reloading for development
+# https://medium.com/@kartikio/setup-node-ts-local-development-environment-with-docker-and-hot-reloading-922db9016119
+
+# Use an official Node.js runtime as the base image
+FROM node:18
+
+# Create and set the working directory in the container
+WORKDIR /usr/src/app
+
+# Copy package.json and package-lock.json to the working directory
+COPY package*.json pnpm-lock.yaml ./
+
+# Install application dependencies
+RUN npm install -g pnpm
+RUN pnpm install
+
+
+COPY tsconfig.json ./
+COPY src ./src
+COPY .env ./
+
+# Define the command to start your Node.js application
+CMD [ "pnpm", "dev:ws-client" ]

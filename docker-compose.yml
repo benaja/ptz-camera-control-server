@@ -1,0 +1,10 @@
+version: "3"
+services:
+  camera_mock:
+    container_name: ptz-camery-mock
+    build:
+      context: .
+      dockerfile: Dockerfile.camera-mock
+    volumes:
+      - ./:/usr/src/app
+      - /usr/src/app/node_modules # Comment out if you want to use local node_modules
