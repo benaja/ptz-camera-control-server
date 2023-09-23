@@ -3,7 +3,7 @@
     {
       "type": "Cgf.PtzCamera",
       "instance": 1,
-      "connectionUrl": "http://10.243.237.139:5001/PanTiltZoom",
+      "connectionUrl": "192.168.0.31",
       "connectionPort": "/dev/ttyACM0"
     }
   ],
