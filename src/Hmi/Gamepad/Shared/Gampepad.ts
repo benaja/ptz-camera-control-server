@@ -58,12 +58,14 @@ export abstract class Gamepad implements IHmi {
   ) {
     this.mixer = mixerFactory.get(config.videoMixer);
 
-    for (const key in config.cameraMap) {
-      const camera = cameraConnectionFactory.get(config.cameraMap[key]);
-      if (camera !== undefined) {
-        this.cameras[key] = camera;
-      }
-    }
+    this.cameras = cameraConnectionFactory._instances;
+
+    // for (const key in config.cameraMap) {
+    //   const camera = cameraConnectionFactory.get(config.cameraMap[key]);
+    //   if (camera !== undefined) {
+    //     this.cameras[key] = camera;
+    //   }
+    // }
 
     this.connectionChange = config.connectionChange;
 
@@ -168,9 +170,6 @@ export abstract class Gamepad implements IHmi {
   }
 
   protected pan(value: number): void {
-    if (!this.selectedCamera) {
-      this.selectedCamera = this.cameras["1"];
-    }
     this.selectedCamera?.pan(value);
   }
 
@@ -219,6 +218,7 @@ export abstract class Gamepad implements IHmi {
   }
 
   private mixerPreviewChange(preview: number, onAir: boolean): void {
+    console.log(this.cameras);
     const selectedCamera = this.cameras[preview];
     if (selectedCamera !== this.selectedCamera) {
       this.zoom(0);

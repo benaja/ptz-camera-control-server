@@ -8,6 +8,8 @@ import {
 import { EventEmitter } from "events";
 import { StrictEventEmitter } from "strict-event-emitter-types";
 import ObsWebSocket from "obs-websocket-js";
+import { throttle } from "@/utils";
+import { debounce } from "lodash";
 
 export class Obs implements IVideoMixer {
   private readonly _selectedChangeEmitter =
@@ -24,10 +26,36 @@ export class Obs implements IVideoMixer {
     this._obs.connect("ws://127.0.0.1:4455").then(() => {
       console.log(`Successfully connected to OBS!`);
 
-      this._obs.on("CurrentPreviewSceneChanged", (data) => {
-        console.log(`CurrentPreviewSceneChanged`, data);
+      this._obs.on("CurrentPreviewSceneChanged", async (data) => {
+        this._currentPreview = await this.getSceneIndex(data.sceneName);
+        this.sceneChanged();
+      });
+      this._obs.on("CurrentProgramSceneChanged", async (data) => {
+        this._currentOnAir = await this.getSceneIndex(data.sceneName);
+        this.sceneChanged();
       });
     });
+  }
+
+  private sceneChanged = debounce(async () => {
+    console.log("preview: ", this._currentPreview);
+    console.log("onair: ", this._currentOnAir);
+    this._selectedChangeEmitter.emit(
+      "previewChange",
+      this._currentPreview,
+      this._currentOnAir === this._currentPreview
+    );
+  }, 10);
+
+  private async getSceneIndex(name: string): Promise<number> {
+    const scenes = await this._obs.call("GetSceneList");
+    const scene = scenes.scenes.find((s) => s.sceneName === name);
+
+    if (!scene) {
+      throw new Error(`Scene ${name} not found`);
+    }
+
+    return (scene.sceneIndex as number) + 1;
   }
 
   public get connectionString(): string {

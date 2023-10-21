@@ -5,11 +5,15 @@ import { ILogger } from "../Logger/ILogger";
 
 export class Factory<TConcrete extends IDisposable> implements IDisposable {
   protected _builders: { [key: string]: IBuilder<TConcrete> } = {};
-  protected _instances: { [key: number]: TConcrete } = {};
+  public _instances: { [key: number]: TConcrete } = {};
 
   public get(instance: number): TConcrete | undefined {
     return this._instances[`${instance}`];
   }
+
+  // public getAll(): TConcrete[] {
+  //   return this._instances;
+  // }
 
   public async parseConfig(config: IConfig, logger: ILogger): Promise<void> {
     if (this._instances[config.instance]) {
