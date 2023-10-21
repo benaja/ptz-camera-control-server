@@ -8,34 +8,36 @@ type Message = {
   focus: boolean;
 };
 
-function connect() {
-  let ws = new WebSocket("ws://192.168.0.31:3000");
+export function startConnection(cameraId: Number) {
+  function log(...args: any[]) {
+    console.log(`[Camera: ${cameraId}] `, ...args);
+  }
+
+  let ws = new WebSocket("ws://127.0.0.1:3000");
   let timeout: NodeJS.Timeout;
   ws.onerror = (error) => {
-    console.log("error");
+    log(`error: ${error}`);
     // setTimeout(() => {
     //   connect();
     // }, 1000);
   };
 
   ws.on("open", () => {
-    console.log("open");
-    ws.send("something");
+    log("open");
+    ws.send(JSON.stringify({ ID: cameraId }));
   });
 
   ws.on("message", (data: Buffer) => {
     const message = JSON.parse(data.toString()) as Message;
-    console.log("message ", message);
+    log("message ", message);
   });
 
   // reconnect if connection is closed
   ws.on("close", () => {
-    console.log("close");
+    log("close");
     if (timeout) clearTimeout(timeout);
     timeout = setTimeout(() => {
-      connect();
+      startConnection(cameraId);
     }, 1000);
   });
 }
-
-connect();

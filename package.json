@@ -8,7 +8,7 @@
   },
   "scripts": {
     "dev": "nodemon",
-    "dev:ws-client": "nodemon --watch src --exec \"ts-node src/ws-client.ts\"",
+    "dev:ws-client": "nodemon --watch src --exec \"ts-node src/CameraMocks/index.ts\"",
     "ws-client": "node dist/ws-client.js",
     "build": "npx tsc",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -38,6 +38,7 @@
     "everpolate": "^0.0.3",
     "mathjs": "^11.11.0",
     "node-hid": "^2.1.2",
+    "obs-websocket-js": "^5.0.3",
     "strict-event-emitter-types": "^2.0.0",
     "ts-node-dev": "^2.0.0",
     "winston": "^3.10.0",

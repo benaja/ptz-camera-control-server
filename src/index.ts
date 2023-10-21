@@ -7,6 +7,7 @@ import { PassthroughBuilder } from "./VideoMixer/Passthrough/PassthroughBuilder"
 import logger, { legacyLogger } from "./logger";
 import { Dualshock4Builder } from "./Hmi/Gamepad/ps4/dualshock4/Dualshock4Builder";
 import "./websocket";
+import { ObsBuilder } from "./VideoMixer/Obs/ObsBuilder.ts";
 
 async function run() {
   const args = await yargs(process.argv.slice(2)).options({
@@ -22,6 +23,7 @@ async function run() {
 
   const core = new Core();
   await core.mixerFactory.builderAdd(new PassthroughBuilder(), legacyLogger);
+  await core.mixerFactory.builderAdd(new ObsBuilder(), legacyLogger);
   await core.hmiFactory.builderAdd(
     new Dualshock4Builder(legacyLogger, core.mixerFactory, core.cameraFactory),
     legacyLogger

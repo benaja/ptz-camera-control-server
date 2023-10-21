@@ -9,7 +9,7 @@
   ],
   "videoMixers": [
     {
-      "type": "passthrough/default",
+      "type": "obs/default",
       "instance": 1,
       "ip": "192.168.1.112",
       "mixEffectBlock": 0

@@ -1,6 +1,6 @@
 export class CgfPtzCameraState {
-    pan = 0;
-    tilt = 0;
-    zoom = 0;
-    focus = 0;
+  pan = 0;
+  tilt = 0;
+  zoom = 0;
+  focus = false;
 }

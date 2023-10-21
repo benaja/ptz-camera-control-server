@@ -25,6 +25,6 @@ export class CgfPtzCameraBuilder implements IBuilder<ICameraConnection> {
       return Promise.reject(configValidator.errorGet());
     }
 
-    return Promise.resolve(new CgfPtzCamera(validConfig, this.logger));
+    return Promise.resolve(new CgfPtzCamera(1, this.logger));
   }
 }

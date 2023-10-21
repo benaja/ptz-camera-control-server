@@ -1,4 +1,4 @@
-import { HID, devices } from "node-hid";
+import { HID, devices, setDriverType } from "node-hid";
 import {
   IButtonConfig,
   IConfig,
@@ -99,9 +99,13 @@ export class NodeGamepad extends EventEmitter {
 
     this.logDebug(`connecting to:${JSON.stringify(deviceToConnectTo)}`);
     try {
-      this._usb = new HID(deviceToConnectTo.path);
+      this._usb = new HID(
+        deviceToConnectTo.vendorId,
+        deviceToConnectTo.productId
+      );
       this.log("connected");
       this.emit("connected");
+      // this._usb.setNonBlocking(true);
       this._connectRetryTimeout = undefined;
       this._usb.on("data", (data: number[]) => this.onControllerFrame(data));
       this._usb.on("error", (error) => {

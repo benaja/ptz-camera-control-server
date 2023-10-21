@@ -1,5 +1,3 @@
-import * as signalR from "@microsoft/signalr";
-
 import axios, { AxiosInstance } from "axios";
 
 import { CgfPtzCameraState } from "./CgfPtzCameraState";
@@ -12,6 +10,7 @@ import { ILogger } from "../../Logger/ILogger";
 import StrictEventEmitter from "strict-event-emitter-types";
 import WebSocket from "ws";
 import { clients } from "@/websocket";
+import { throttle } from "@/utils";
 
 export class CgfPtzCamera implements ICameraConnection {
   // private readonly axios: AxiosInstance;
@@ -24,16 +23,7 @@ export class CgfPtzCamera implements ICameraConnection {
     new EventEmitter();
   private websocket: WebSocket | undefined;
 
-  constructor(
-    private config: ICgfPtzCameraConfiguration,
-    private logger: ILogger
-  ) {
-    // this.axios = axios.create({
-    //   httpsAgent: new HttpsAgent({
-    //     rejectUnauthorized: false,
-    //   }),
-    // });
-
+  constructor(public cameraId: number, private logger: ILogger) {
     this.searchForWebsocket();
 
     this.initialConnect().catch((error) =>
@@ -42,7 +32,7 @@ export class CgfPtzCamera implements ICameraConnection {
   }
 
   private searchForWebsocket() {
-    this.websocket = clients.get(this.config.connectionUrl);
+    this.websocket = clients.get(this.cameraId);
     if (this.websocket) {
       console.log("websocket found");
       this.websocket.on("close", () => {
@@ -51,17 +41,10 @@ export class CgfPtzCamera implements ICameraConnection {
       return;
     }
 
-    console.log(
-      "websocket not found, retrying in 1s: ",
-      this.config.connectionUrl
-    );
+    console.log("websocket not found, retrying in 1s: ", this.cameraId);
     setTimeout(() => {
       this.searchForWebsocket();
     }, 1000);
-  }
-
-  public get connectionString(): string {
-    return this.config.connectionUrl;
   }
 
   public get connected(): boolean {
@@ -90,40 +73,37 @@ export class CgfPtzCamera implements ICameraConnection {
   }
 
   public pan(value: number): void {
-    this.currentState.pan = this.multiplyRoundAndCrop(value * 255, 255);
-    this.scheduleStateTransmission();
+    const newValue = this.multiplyRoundAndCrop(value * 255, 255);
+    if (newValue === this.currentState.pan) return;
+
+    this.currentState.pan = newValue;
+    this.transmitNextState();
   }
   public tilt(value: number): void {
-    this.currentState.tilt = this.multiplyRoundAndCrop(value * 255, 255);
-    this.scheduleStateTransmission();
+    const newValue = this.multiplyRoundAndCrop(value * 255, 255);
+    if (newValue == this.currentState.tilt) return;
+
+    this.currentState.tilt = newValue;
+    this.transmitNextState();
   }
   public zoom(value: number): void {
+    const newValue = this.multiplyRoundAndCrop(value * 8, 8);
+    if (newValue == this.currentState.zoom) return;
+
     this.currentState.zoom = this.multiplyRoundAndCrop(value * 8, 8);
-    this.scheduleStateTransmission();
+    this.transmitNextState();
   }
   public focus(value: number): void {
-    this.currentState.focus = this.multiplyRoundAndCrop(value * 1.2, 1);
-    this.scheduleStateTransmission();
-  }
+    const newValue = this.multiplyRoundAndCrop(value * 1.2, 1) > 0;
+    if (newValue == this.currentState.focus) return;
 
-  private async socketReconnected() {
-    await this.setupRemote();
-    await this.connectionSuccessfullyEstablished();
+    this.currentState.focus = newValue;
+    this.transmitNextState();
   }
 
   private async initialConnect() {
     console.log("initialConnect");
-    await this.setupRemote();
-    // this.socketConnection.onreconnected(() => {
-    //   this.log("reconnect successful");
-    //   this.socketReconnected();
-    // });
-    // this.socketConnection.onreconnecting(() => {
-    //   this.log("connection error - trying automatic reconnect");
-    //   this.connected = false;
-    // });
     try {
-      // await this.socketConnection.start();
       await this.connectionSuccessfullyEstablished();
     } catch (error) {
       this.logError(
@@ -133,91 +113,34 @@ export class CgfPtzCamera implements ICameraConnection {
     }
   }
 
-  private async setupRemote() {
-    try {
-      // const response = await this.axios.get(
-      //   this.config.connectionUrl + "/connections"
-      // );
-      // if (!response.data.includes(this.config.connectionPort)) {
-      //   this.logError(
-      //     `Port:${this.config.connectionPort} is not available. Available Ports:${response.data}`
-      //   );
-      //   this.logError("Stopping camera.");
-      //   this.dispose();
-      // }
-    } catch (error) {
-      this.log(`Failed to connect - ${error}`);
-      await this.setupRemote();
-      return;
-    }
-    const connection = {
-      connectionName: this.config.connectionPort,
-      connected: true,
-    };
-    console.log("connection", connection);
-    try {
-      console.log("connectionUrl", this.config.connectionUrl);
-      // await this.axios
-      //   .put(`${this.config.connectionUrl}/connection`, connection)
-      //   .then(() => {
-      //     console.log("connection put");
-      //   });
-    } catch (error) {
-      console.log("error", error);
-      this.logError(
-        `Failed to connect to Port:${this.config.connectionPort} with error:${error}`
-      );
-      this.logError("Stopping camera.");
-      this.dispose();
-    }
-
-    console.log("setupRemote");
-  }
-
   private async connectionSuccessfullyEstablished() {
     console.log("connectionSuccessfullyEstablished");
     this.canTransmit = true;
     this.connected = true;
-    await this.transmitNextStateIfRequestedAndPossible();
+    await this.transmitNextState();
   }
 
-  private async transmitNextStateIfRequestedAndPossible() {
+  private transmitNextState = throttle(async () => {
     if (!this.canTransmit) return;
     if (!this.websocket) return;
-    if (!this.shouldTransmitState) return;
 
     this.canTransmit = false;
-    this.shouldTransmitState = false;
     try {
       this.websocket?.send(JSON.stringify(this.currentState));
-      // const updateSuccessful = await this.socketConnection.invoke(
-      //   "SetState",
-      //   this.currentState
-      // );
-      // console.log("updateSuccessful", this.currentState);
-      // if (!updateSuccessful) {
-      //   this.log("state update failure returned - retrying");
-      //   this.shouldTransmitState = true;
-      // }
       this.canTransmit = true;
     } catch (error) {
-      this.shouldTransmitState = true;
+      this.canTransmit = true;
       this.log(`state transmission error - ${error}`);
-      await this.transmitNextStateIfRequestedAndPossible();
+      await this.transmitNextState();
     }
-  }
-
-  private scheduleStateTransmission() {
-    this.shouldTransmitState = true;
-    this.transmitNextStateIfRequestedAndPossible();
-  }
+  }, 5);
 
   private log(toLog: string) {
-    this.logger.log(`CgfPtzCamera(${this.config.connectionUrl}):${toLog}`);
+    this.logger.log(`CgfPtzCamera(${this.cameraId}):${toLog}`);
   }
 
   private logError(toLog: string) {
-    this.logger.error(`CgfPtzCamera(${this.config.connectionUrl}):${toLog}`);
+    this.logger.error(`CgfPtzCamera(${this.cameraId}):${toLog}`);
   }
   private multiplyRoundAndCrop(value: number, maximumAbsolute: number): number {
     const maximized = Math.max(

@@ -4,8 +4,8 @@ import { IDisposable } from "./IDisposable";
 import { ILogger } from "../Logger/ILogger";
 
 export class Factory<TConcrete extends IDisposable> implements IDisposable {
-  private _builders: { [key: string]: IBuilder<TConcrete> } = {};
-  private _instances: { [key: number]: TConcrete } = {};
+  protected _builders: { [key: string]: IBuilder<TConcrete> } = {};
+  protected _instances: { [key: number]: TConcrete } = {};
 
   public get(instance: number): TConcrete | undefined {
     return this._instances[`${instance}`];

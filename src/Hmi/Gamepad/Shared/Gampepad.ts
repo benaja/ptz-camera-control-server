@@ -229,19 +229,15 @@ export abstract class Gamepad implements IHmi {
 
     this.selectedCamera = selectedCamera;
     if (selectedCamera !== undefined) {
-      this.printConnectionMessage(
-        preview,
-        selectedCamera.connectionString,
-        onAir
-      );
+      this.printConnectionMessage(preview, selectedCamera.cameraId, onAir);
     } else {
-      this.printConnectionMessage(preview, "not a camera", onAir);
+      this.printConnectionMessage(preview, -1, onAir);
     }
   }
 
   private printConnectionMessage(
     index: number,
-    connection: string,
+    connection: number,
     onAir: boolean
   ) {
     this.log(
